@@ -19,6 +19,7 @@ __pycache__/
 .nuxt
 .turbo
 .vercel
+.open-next
 .parcel-cache
 .cache
 coverage
