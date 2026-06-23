@@ -120,30 +120,28 @@ export default function Home() {
   ) => (
     <div
       key={index}
-      className={`flex items-center gap-4 py-3 px-4 rounded-lg transition-all duration-300 ${
-        isLast
+      className={`flex items-center gap-2 sm:gap-4 py-2.5 sm:py-3 px-3 sm:px-4 rounded-lg transition-all duration-300 ${isLast
           ? 'bg-amber-500/10 border border-amber-500/20'
           : 'bg-slate-800/50'
-      }`}
+        }`}
     >
-      <span className="text-slate-500 text-sm w-6">#{index + 1}</span>
-      <div className="flex gap-2">
+      <span className="text-slate-500 text-sm w-5 sm:w-6 shrink-0">#{index + 1}</span>
+      <div className="flex gap-1 sm:gap-2 flex-1 min-w-0">
         {record.guess.map((d, i) => (
           <span
             key={i}
-            className={`w-10 h-10 flex items-center justify-center rounded-md font-mono text-xl font-bold ${
-              record.feedback.bulls === 5
+            className={`flex-1 min-w-0 h-8 sm:w-10 sm:h-10 sm:flex-none flex items-center justify-center rounded-md font-mono text-base sm:text-xl font-bold ${record.feedback.bulls === 5
                 ? 'text-emerald-400 bg-emerald-500/20 border border-emerald-500/30'
                 : isLast
                   ? 'text-amber-300 bg-amber-500/10 border border-amber-500/20'
                   : 'text-slate-300 bg-slate-700/50 border border-slate-600/50'
-            }`}
+              }`}
           >
             {d}
           </span>
         ))}
       </div>
-      <div className="ml-auto">{renderFeedback(record.feedback)}</div>
+      <div className="ml-auto shrink-0">{renderFeedback(record.feedback)}</div>
     </div>
   );
 
@@ -161,13 +159,10 @@ export default function Home() {
       <div className="relative z-10 max-w-2xl mx-auto px-4 py-8">
         {/* 标题 */}
         <div className="text-center mb-8">
-          <h1 className="text-3xl font-bold tracking-tight mb-2">
+          <h1 className="text-3xl font-bold tracking-tight">
             <span className="text-amber-400">★</span> 权达开猜数字破解器{' '}
             <span className="text-amber-400">★</span>
           </h1>
-          <p className="text-slate-400 text-sm">
-            5位不重复数字 · ★ 位置正确 · ☆ 数字正确位置错误 · 9次机会
-          </p>
         </div>
 
         <Card className="bg-slate-900/80 border-slate-700/50 backdrop-blur">
@@ -194,67 +189,65 @@ export default function Home() {
                     剩余 {possibilities.length} 种可能
                   </Badge>
                 </div>
-                <div className="flex items-center gap-3 mb-4">
-                  <span className="text-sm text-slate-500">请猜</span>
-                  <div className="flex gap-2">
+                <div className="flex flex-col gap-2 sm:gap-3 max-w-xs sm:max-w-sm mx-auto">
+                  <div className="flex gap-1.5 sm:gap-2 w-full">
                     {suggestion.map((d, i) => (
                       <span
                         key={i}
-                        className="w-14 h-14 flex items-center justify-center rounded-lg font-mono text-3xl font-bold text-amber-300 bg-amber-500/10 border border-amber-500/30"
+                        className="flex-1 min-w-0 aspect-square sm:aspect-auto sm:w-16 sm:h-16 flex items-center justify-center rounded-lg font-mono text-2xl sm:text-3xl font-bold text-amber-300 bg-amber-500/10 border border-amber-500/30"
                       >
                         {d}
                       </span>
                     ))}
                   </div>
-                </div>
-                {/* 反馈输入 */}
-                <div className="flex gap-3 items-end border-t border-slate-700/50 pt-3">
-                  <div className="w-24">
-                    <label className="text-xs text-slate-400 mb-1 block">
-                      ★ 数量
-                    </label>
-                    <Input
-                      ref={bullsRef}
-                      value={currentBulls}
-                      onChange={(e) => {
-                        const v = e.target.value.replace(/\D/g, '').slice(0, 1);
-                        setCurrentBulls(v);
-                      }}
-                      placeholder="0-5"
-                      className="bg-slate-800/50 border-slate-600/50 text-amber-300 font-mono text-lg text-center placeholder:text-slate-600"
-                      onKeyDown={(e) => {
-                        if (e.key === 'Enter') handleSubmit();
-                      }}
-                    />
+                  <div className="flex gap-2 sm:gap-3 items-end border-t border-slate-700/50 pt-3">
+                    <div className="flex-1">
+                      <label className="text-xs text-slate-400 mb-1 block">
+                        ★ 数量
+                      </label>
+                      <Input
+                        ref={bullsRef}
+                        value={currentBulls}
+                        onChange={(e) => {
+                          const v = e.target.value.replace(/\D/g, '').slice(0, 1);
+                          setCurrentBulls(v);
+                        }}
+                        placeholder="0-5"
+                        className="bg-slate-800/50 border-slate-600/50 text-amber-300 font-mono text-lg text-center placeholder:text-slate-600"
+                        onKeyDown={(e) => {
+                          if (e.key === 'Enter') handleSubmit();
+                        }}
+                      />
+                    </div>
+                    <div className="flex-1">
+                      <label className="text-xs text-slate-400 mb-1 block">
+                        ☆ 数量
+                      </label>
+                      <Input
+                        value={currentCows}
+                        onChange={(e) => {
+                          const v = e.target.value.replace(/\D/g, '').slice(0, 1);
+                          setCurrentCows(v);
+                        }}
+                        placeholder="0-5"
+                        className="bg-slate-800/50 border-slate-600/50 text-slate-300 font-mono text-lg text-center placeholder:text-slate-600"
+                        onKeyDown={(e) => {
+                          if (e.key === 'Enter') handleSubmit();
+                        }}
+                      />
+                    </div>
+                    <Button
+                      onClick={handleSubmit}
+                      disabled={
+                        currentBulls === '' ||
+                        currentCows === '' ||
+                        parseInt(currentBulls) + parseInt(currentCows) > 5
+                      }
+                      className="bg-amber-500 hover:bg-amber-600 text-slate-900 font-bold px-4 sm:px-6 shrink-0"
+                    >
+                      确认反馈
+                    </Button>
                   </div>
-                  <div className="w-24">
-                    <label className="text-xs text-slate-400 mb-1 block">
-                      ☆ 数量
-                    </label>
-                    <Input
-                      value={currentCows}
-                      onChange={(e) => {
-                        const v = e.target.value.replace(/\D/g, '').slice(0, 1);
-                        setCurrentCows(v);
-                      }}
-                      placeholder="0-5"
-                      className="bg-slate-800/50 border-slate-600/50 text-slate-300 font-mono text-lg text-center placeholder:text-slate-600"
-                      onKeyDown={(e) => {
-                        if (e.key === 'Enter') handleSubmit();
-                      }}
-                    />
-                  </div>
-                  <Button
-                    onClick={handleSubmit}
-                    disabled={
-                      currentBulls === '' ||
-                      currentCows === '' ||
-                      parseInt(currentBulls) + parseInt(currentCows) > 5
-                    }
-                    className="bg-amber-500 hover:bg-amber-600 text-slate-900 font-bold px-6 ml-auto"
-                  >
-                    确认反馈
-                  </Button>
                 </div>
               </div>
             )}
@@ -265,11 +258,11 @@ export default function Home() {
                 <p className="text-xl font-bold text-emerald-300 mb-2">
                   破解成功！
                 </p>
-                <div className="flex gap-2 justify-center mb-4">
+                <div className="flex gap-1.5 sm:gap-2 justify-center mb-4">
                   {guesses[guesses.length - 1].guess.map((d, i) => (
                     <span
                       key={i}
-                      className="w-14 h-14 flex items-center justify-center rounded-lg font-mono text-3xl font-bold text-emerald-300 bg-emerald-500/10 border border-emerald-500/30"
+                      className="flex-1 min-w-0 h-11 sm:w-14 sm:h-14 sm:flex-none flex items-center justify-center rounded-lg font-mono text-2xl sm:text-3xl font-bold text-emerald-300 bg-emerald-500/10 border border-emerald-500/30"
                     >
                       {d}
                     </span>
@@ -348,29 +341,26 @@ export default function Home() {
         </Card>
 
         {/* 规则说明 */}
-        <Card className="bg-slate-900/60 border-slate-700/30 mt-6">
-          <CardHeader className="py-3">
-            <CardTitle className="text-sm text-slate-400">规则说明</CardTitle>
+        <Card className="bg-slate-900/60 border-slate-700/30 mt-6 py-2 gap-1">
+          <CardHeader className="py-0 px-6">
+            <CardTitle className="text-sm text-slate-400">【规则说明】</CardTitle>
           </CardHeader>
-          <CardContent className="text-xs text-slate-500 space-y-1.5 pb-3">
+          <CardContent className="text-xs text-slate-500 space-y-0.5 pb-2 pt-0">
             <p>
-              1. 密码由 <strong className="text-slate-300">5位不重复</strong>{' '}
-              的数字组成（0-9选5个不同数字）
+              1. 密码由 <strong className="text-slate-300">5位不重复</strong> 的数字组成。
             </p>
             <p>
-              2. 一共有{' '}
-              <strong className="text-slate-300">9次机会</strong>{' '}
-              猜测正确密码
+              2. 你一共有 <strong className="text-slate-300">9次</strong> 机会。
             </p>
             <p>
-              3.{' '}
+              3. 提示{' '}
               <span className="text-amber-400 font-bold">★</span>{' '}
-              红色实心星 = 数字和位置都正确
+              表示数字和位置都对。
             </p>
             <p>
-              4.{' '}
+              4. 提示{' '}
               <span className="text-slate-300 font-bold">☆</span>{' '}
-              空心星 = 数字正确但位置不对
+              表示数字对但位置错。
             </p>
           </CardContent>
         </Card>
